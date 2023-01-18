@@ -9,7 +9,7 @@ module GraphqlPagination
       @collection_types ||= {}
       @collection_types[collection_base] ||= {}
       @collection_types[collection_base][metadata_type] ||= begin
-        type_name = "#{graphql_name}Collection"
+        type_name = GraphqlPagination.configuration.collection_type_name.call(self)
         source_type = self
 
         Class.new(collection_base) do

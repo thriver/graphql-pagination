@@ -53,6 +53,32 @@ RSpec.describe GraphqlPagination::CollectionType do
         expect(custom_collection_type.fields.keys).to include('foo')
       end
 
+      context 'with a custom collection type suffix' do
+        before do
+          GraphqlPagination.configure do |config|
+            config.collection_type_suffix = 'Page'
+          end
+        end
+
+        it "returns an appropriate collection type based on collection_base argument" do
+          expect(collection_type.graphql_name).to eq 'FruitPage'
+          expect(custom_collection_type.graphql_name).to eq 'FruitPage'
+        end
+      end
+
+      context 'with a custom collection type name proc' do
+        before do
+          GraphqlPagination.configure do |config|
+            config.collection_type_name = ->(type) { "A#{type.graphql_name}Page" }
+          end
+        end
+
+        it "returns an appropriate collection type based on collection_base argument" do
+          expect(collection_type.graphql_name).to eq 'AFruitPage'
+          expect(custom_collection_type.graphql_name).to eq 'AFruitPage'
+        end
+      end
+
       it "caches the type for future use" do
         expect(custom_collection_type).to be(type.collection_type(collection_base: collection_base))
       end
