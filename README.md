@@ -120,11 +120,9 @@ field :fruits, Types::FruitType.collection_type(metadata_type: MyMetadataType)
 By default, the generated collection type name is the `graphql_name` of the field type with the suffix `Collection`. For example, if the field `fruits` is of type `Fruit`, the generated type name will be `FruitCollection`. However, for certain schemas, this naming may cause conflicts. To avoid this, you can specify a custom name for the generated collection type:
 
 ```ruby
-GraphqlPagination.configure do |config|
-  config.collection_type_suffix = 'Page'
+GraphqlPagination.collection_type_suffix = 'Page'
   # or, for more complex naming:
-  config.collection_type_name = ->(field_type) { "#{field_type.graphql_name}Page" }
-end
+GraphqlPagination.collection_type_name = ->(field_type_name) { "#{field_type_name}Page" }
 ``
 
 ## Contributing

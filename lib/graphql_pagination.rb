@@ -2,16 +2,20 @@ require 'graphql_pagination/version'
 require 'graphql'
 require 'graphql/schema/object'
 
-require 'graphql_pagination/configuration'
-
 module GraphqlPagination
   class << self
-    def configuration
-      @configuration ||= Configuration.new
+    attr_accessor :collection_type_suffix
+
+    def collection_type_name
+      return @collection_type_name if defined?(@collection_type_name)
+
+      @collection_type_name = ->(field_type_name) { "#{field_type_name}#{collection_type_suffix}" }
     end
 
-    def configure
-      yield(configuration)
+    def collection_type_name=(value)
+      fail ArgumentError, 'collection_type_name must be callable' unless value.respond_to?(:call)
+
+      @collection_type_name = value
     end
   end
 end

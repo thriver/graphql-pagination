@@ -55,9 +55,7 @@ RSpec.describe GraphqlPagination::CollectionType do
 
       context 'with a custom collection type suffix' do
         before do
-          GraphqlPagination.configure do |config|
-            config.collection_type_suffix = 'Page'
-          end
+          GraphqlPagination.collection_type_suffix = 'Page'
         end
 
         it "returns an appropriate collection type based on collection_base argument" do
@@ -68,9 +66,7 @@ RSpec.describe GraphqlPagination::CollectionType do
 
       context 'with a custom collection type name proc' do
         before do
-          GraphqlPagination.configure do |config|
-            config.collection_type_name = ->(type) { "A#{type.graphql_name}Page" }
-          end
+          GraphqlPagination.collection_type_name = ->(type) { "A#{type}Page" }
         end
 
         it "returns an appropriate collection type based on collection_base argument" do
